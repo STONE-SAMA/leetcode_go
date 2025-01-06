@@ -186,18 +186,35 @@ func Jump2(nums []int) int { //跳跃游戏 II
 }
 
 func threeSum(nums []int) [][]int { //三数之和
+	if len(nums) == 3 {
+		if nums[0]+nums[1]+nums[2] == 0 {
+			return [][]int{[]int{nums[0], nums[1], nums[2]}}
+		}
+		return [][]int{}
+	}
 	sort.Ints(nums)
+	length := len(nums)
 	res := make([][]int, 0)
-	l, m, r := 0, 0, len(nums)-1
-	for l < r {
-		left := nums[l]
-		right := nums[r]
-		m = l + 1
-		for m < r {
-			if left+right+nums[m] == 0 {
-				res = append(res, []int{left, right, nums[m]})
+
+	for left := 0; left < length-2; left++ {
+		if left > 0 && nums[left-1] == nums[left] {
+			continue
+		}
+		right := length - 1
+		for middle := left + 1; middle < length-1; middle++ {
+			if middle > left+1 && nums[middle-1] == nums[middle] {
+				continue
 			}
-			m++
+			for middle < right && nums[left]+nums[middle]+nums[right] > 0 {
+				right--
+			}
+			if middle == right {
+				break
+			}
+			if nums[left]+nums[middle]+nums[right] == 0 {
+				res = append(res, []int{nums[left], nums[middle], nums[right]})
+			}
+
 		}
 
 	}
@@ -220,6 +237,45 @@ func twoSum2(numbers []int, target int) []int { //两数之和 II - 输入有序
 	return []int{}
 }
 
-//func maxArea(height []int) int { //盛最多水的容器
-//
-//}
+func maxArea(height []int) int { //盛最多水的容器
+	length := len(height)
+	if length == 2 {
+		return min(height[0], height[1])
+	}
+	temp := 0
+	l, r := 0, length-1
+	for l < r {
+		temp = max(temp, min(height[l], height[r])*(r-l))
+		if height[l] < height[r] {
+			l++
+		} else {
+			r--
+		}
+	}
+	return temp
+}
+
+func merge(intervals [][]int) [][]int { //合并区间
+	if len(intervals) == 1 {
+		return intervals
+	}
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	res := make([][]int, 0)
+	left := intervals[0][0]
+	right := intervals[0][1]
+	for i := 1; i < len(intervals); i++ {
+		temp_left := intervals[i][0]
+		temp_right := intervals[i][1]
+		if right < temp_left {
+			res = append(res, []int{left, right})
+			left = temp_left
+			right = temp_right
+		} else {
+			right = max(temp_right, right)
+		}
+	}
+	res = append(res, []int{left, right})
+	return res
+}

@@ -648,3 +648,50 @@ func RemoveDuplicates_int(nums []int) int {
 	}
 	return k
 }
+
+func moveZeroes(nums []int) { //移动零
+	left, right := 0, 0
+	for right < len(nums) {
+		if nums[right] == 0 {
+			right++
+		} else {
+			nums[left] = nums[right]
+			left++
+			right++
+		}
+	}
+	for left < len(nums) {
+		nums[left] = 0
+		left++
+	}
+}
+
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	nodes := make(map[*ListNode]bool)
+	for headA != nil {
+		nodes[headA] = true
+		headA = headA.Next
+	}
+	for headB != nil {
+		if _, ok := nodes[headB]; ok {
+			return headB
+		}
+		headB = headB.Next
+	}
+	return nil
+}
+
+func isPalindrome2(head *ListNode) bool {
+	nums := []int{}
+	for head != nil {
+		nums = append(nums, head.Val)
+		head = head.Next
+	}
+	length := len(nums)
+	for i := 0; i < length/2; i++ {
+		if nums[i] != nums[length-i-1] {
+			return false
+		}
+	}
+	return true
+}
