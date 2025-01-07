@@ -382,3 +382,101 @@ func ProductExceptSelf(nums []int) []int { //除自身以外数组的乘积
 	}
 	return res
 }
+
+func closeStrings(word1 string, word2 string) bool {
+	runes := []rune(word1)
+	var cnt = make(map[rune]int)
+	for i := 0; i < len(runes); i++ {
+		cnt[runes[i]]++
+	}
+	runes = []rune(word2)
+	var mark = make(map[rune]int)
+	for i := 0; i < len(runes); i++ {
+		if _, ok := cnt[runes[i]]; ok {
+			mark[runes[i]]++
+		} else {
+			return false
+		}
+	}
+	if len(mark) != len(cnt) {
+		return false
+	}
+	var flag_num = make(map[int]int)
+	for _, value := range cnt {
+		flag_num[value]++
+	}
+	for _, value := range mark {
+		if v, ok := flag_num[value]; !ok || v == 0 {
+			return false
+		} else {
+			flag_num[value]--
+		}
+	}
+	return true
+}
+
+func deleteMiddle1(head *ListNode) *ListNode { //删除链表的中间节点
+	if head.Next == nil {
+		return nil
+	}
+	node := head
+	list := make([]*ListNode, 0)
+	for node != nil {
+		list = append(list, node)
+		node = node.Next
+	}
+	mid := len(list) / 2
+	pre := list[mid-1]
+	if mid+1 < len(list) {
+		pre.Next = list[mid+1]
+	} else {
+		pre.Next = nil
+	}
+	return head
+}
+func deleteMiddle2(head *ListNode) *ListNode { //删除链表的中间节点
+	if head.Next == nil {
+		return nil
+	}
+	slow, fast := head, head
+	var prev *ListNode
+	// 移动快慢指针
+	for fast != nil && fast.Next != nil {
+		prev = slow
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	// 删除中间节点
+	if prev != nil {
+		prev.Next = slow.Next
+	} else {
+		// 如果链表只有两个节点，删除第二个节点
+		head.Next = nil
+	}
+	return head
+}
+
+func OddEvenList(head *ListNode) *ListNode { //奇偶链表
+	if head == nil { //0个节点
+		return nil
+	}
+	if head.Next == nil || head.Next.Next == nil { //1、2个节点
+		return head
+	}
+	oddNode := head
+	evenHead := head.Next
+	evenNode := evenHead
+	for evenNode.Next != nil && evenNode.Next.Next != nil {
+		oddNode.Next = evenNode.Next
+		oddNode = oddNode.Next
+		evenNode.Next = evenNode.Next.Next
+		evenNode = evenNode.Next
+	}
+	if evenNode.Next != nil {
+		oddNode.Next = evenNode.Next
+		oddNode = oddNode.Next
+	}
+	oddNode.Next = evenHead
+	evenNode.Next = nil
+	return head
+}

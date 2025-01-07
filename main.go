@@ -1,7 +1,5 @@
 package main
 
-import "GO/leetcode"
-
 func main() {
 
 	//demo.FunDemo1()
@@ -60,5 +58,20 @@ func main() {
 
 	//leetcode.IncreasingTriplet([]int{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100000000})
 
-	leetcode.ProductExceptSelf([]int{1, 2, 3, 4})
+	//leetcode.ProductExceptSelf([]int{1, 2, 3, 4})
+
+	//leetcode.UniqueOccurrences([]int{1, 2, 2, 1, 1, 3})
+
+	//node1 := leetcode.ListNode{Val: 1}
+	//node2 := leetcode.ListNode{Val: 2}
+	//node3 := leetcode.ListNode{Val: 3}
+	//node4 := leetcode.ListNode{Val: 4}
+	//node5 := leetcode.ListNode{Val: 5}
+	//node1.Next = &node2
+	//node2.Next = &node3
+	//node3.Next = &node4
+	//node4.Next = &node5
+	//node5.Next = nil
+	//leetcode.OddEvenList(&node1)
+
 }

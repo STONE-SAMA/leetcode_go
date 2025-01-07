@@ -746,3 +746,61 @@ func reverseVowels(s string) string {
 	}
 	return string(runes)
 }
+
+func findDifference(nums1 []int, nums2 []int) [][]int { //找出两数组的不同
+	var cnt_nums1 = make(map[int]bool)
+	var cnt_nums2 = make(map[int]bool)
+	var res = make([][]int, 2)
+	for i := 0; i < len(nums1); i++ {
+		cnt_nums1[nums1[i]] = true
+	}
+	for i := 0; i < len(nums2); i++ {
+		cnt_nums2[nums2[i]] = true
+		if _, ok := cnt_nums1[nums2[i]]; !ok {
+			res[1] = append(res[1], nums2[i])
+			cnt_nums1[nums2[i]] = true
+		}
+	}
+	for i := 0; i < len(nums1); i++ {
+		if _, ok := cnt_nums2[nums1[i]]; !ok {
+			res[0] = append(res[0], nums1[i])
+			cnt_nums2[nums1[i]] = true
+		}
+	}
+	return res
+}
+
+func UniqueOccurrences(arr []int) bool { //独一无二的出现次数
+	var cnt = make(map[int]int)
+	for _, value := range arr {
+		cnt[value]++
+	}
+	var flag = make(map[int]bool)
+	for _, v := range cnt {
+		if _, ok := flag[v]; ok {
+			return false
+		} else {
+			flag[v] = true
+		}
+	}
+	return true
+}
+
+func reverseList(head *ListNode) *ListNode { //反转链表
+	if head == nil {
+		return nil
+	}
+	if head.Next == nil {
+		return head
+	}
+	node := head
+	var pre *ListNode = nil
+	for node.Next != nil {
+		temp := node.Next
+		node.Next = pre
+		pre = node
+		node = temp
+	}
+	node.Next = pre
+	return node
+}
