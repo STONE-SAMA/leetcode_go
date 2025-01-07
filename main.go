@@ -52,6 +52,13 @@ func main() {
 
 	//leetcode.Rotate([]int{1, 2, 3, 4, 5, 6, 7}, 3)
 
-	leetcode.Jump2([]int{1, 3, 2})
+	//leetcode.Jump2([]int{1, 3, 2})
 
+	//leetcode.DailyTemperatures([]int{73, 74, 75, 71, 69, 72, 76, 73})
+
+	//leetcode.Compress([]byte{'a', 'a', 'b', 'b', 'c', 'c', 'c'})
+
+	//leetcode.IncreasingTriplet([]int{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100000000})
+
+	leetcode.ProductExceptSelf([]int{1, 2, 3, 4})
 }

@@ -3,6 +3,7 @@ package leetcode
 import (
 	"math"
 	"sort"
+	"strconv"
 )
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
@@ -277,5 +278,107 @@ func merge(intervals [][]int) [][]int { //合并区间
 		}
 	}
 	res = append(res, []int{left, right})
+	return res
+}
+
+func DailyTemperatures(temperatures []int) []int { //每日温度
+	if len(temperatures) == 1 {
+		return []int{0}
+	}
+	res := make([]int, len(temperatures))
+	var slices [][]int
+	for index, value := range temperatures {
+		if index == 0 {
+			slices = append(slices, []int{index, value})
+		} else {
+			top := slices[len(slices)-1][1]
+			if value > top {
+				for value > top && len(slices) > 0 {
+					temp_index := slices[len(slices)-1][0]
+					days := index - temp_index
+					res[temp_index] = days
+					slices = slices[:len(slices)-1]
+					if len(slices) > 0 {
+						top = slices[len(slices)-1][1]
+					}
+				}
+			}
+			slices = append(slices, []int{index, value})
+		}
+	}
+	return res
+}
+
+func Compress(chars []byte) int { //压缩字符串
+	if len(chars) == 1 {
+		return 1
+	}
+	pre := chars[0]
+	mark := 1
+	flag := 0
+	for i := 1; i < len(chars); i++ {
+		if chars[i] == pre {
+			mark++
+		} else {
+			chars[flag] = pre
+			flag++
+			if mark > 1 { //整型拆分
+				runes := []rune(strconv.Itoa(mark))
+				for i := 0; i < len(runes); i++ {
+					chars[flag] = byte(runes[i])
+					flag++
+				}
+			}
+			pre = chars[i]
+			mark = 1
+		}
+	}
+	//处理末位
+	chars[flag] = pre
+	flag++
+	if mark > 1 {
+		runes := []rune(strconv.Itoa(mark))
+		for i := 0; i < len(runes); i++ {
+			chars[flag] = byte(runes[i])
+			flag++
+		}
+	}
+	return flag
+}
+
+func IncreasingTriplet(nums []int) bool { //递增的三元子序列
+	if len(nums) < 3 {
+		return false
+	}
+	left := math.MaxInt32
+	middle := math.MaxInt32
+	for i := 0; i < len(nums); i++ {
+		if nums[i] <= left {
+			left = nums[i]
+		} else if nums[i] <= middle {
+			middle = nums[i]
+		} else if nums[i] > middle {
+			return true
+		}
+	}
+	return false
+}
+
+func ProductExceptSelf(nums []int) []int { //除自身以外数组的乘积
+	length := len(nums)
+	left, right := make([]int, length), make([]int, length)
+	left[0] = 1
+	right[length-1] = 1
+	for i := 1; i < length; i++ {
+		left[i] = left[i-1] * nums[i-1]
+
+	}
+	for i := length - 2; i >= 0; i-- {
+		right[i] = right[i+1] * nums[i+1]
+	}
+	res := make([]int, length)
+	for i := 0; i < length; i++ {
+		res[i] = left[i] * right[i]
+	}
 	return res
 }

@@ -695,3 +695,54 @@ func isPalindrome2(head *ListNode) bool {
 	}
 	return true
 }
+
+func mergeAlternately(word1 string, word2 string) string { //交替合并字符串
+	runes1 := []rune(word1)
+	runes2 := []rune(word2)
+	length := min(len(runes1), len(runes2))
+	var res []rune
+	for i := 0; i < length; i++ {
+		res = append(res, runes1[i])
+		res = append(res, runes2[i])
+	}
+	var temp string
+	if len(word1) > length {
+		temp = string(runes1[length:])
+	}
+	if len(word2) > length {
+		temp = string(runes2[length:])
+	}
+	return string(res) + temp
+}
+
+func kidsWithCandies(candies []int, extraCandies int) []bool { //拥有最多糖果的孩子
+	num_max := -1
+	for i := 0; i < len(candies); i++ {
+		num_max = max(num_max, candies[i])
+	}
+	res := make([]bool, len(candies))
+	for i := 0; i < len(candies); i++ {
+		if candies[i]-num_max+extraCandies >= 0 {
+			res[i] = true
+		}
+	}
+	return res
+}
+
+func reverseVowels(s string) string {
+	var indexs []int
+	var values []rune
+	runes := []rune(s)
+	for i := 0; i < len(runes); i++ {
+		temp := runes[i]
+		temp = unicode.ToLower(temp)
+		if temp == 'a' || temp == 'e' || temp == 'i' || temp == 'o' || temp == 'u' {
+			indexs = append(indexs, i)
+			values = append(values, runes[i])
+		}
+	}
+	for i := 0; i < len(indexs); i++ {
+		runes[indexs[i]] = values[len(values)-i-1]
+	}
+	return string(runes)
+}
