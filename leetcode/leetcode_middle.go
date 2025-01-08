@@ -480,3 +480,126 @@ func OddEvenList(head *ListNode) *ListNode { //奇偶链表
 	evenNode.Next = nil
 	return head
 }
+
+func pairSum(head *ListNode) int { //链表最大孪生和
+	values := make([]int, 0)
+	for head != nil {
+		values = append(values, head.Val)
+		head = head.Next
+	}
+	length := len(values)
+	max_sum := 0
+	for i := 0; i < length/2; i++ {
+		max_sum = max(max_sum, values[i]+values[length-i-1])
+	}
+	return max_sum
+}
+
+func MaxOperations(nums []int, k int) int { // K 和数对的最大数目
+	cnts := make(map[int]int)
+	res := 0
+	for i := 0; i < len(nums); i++ {
+		val := nums[i]
+		need := k - val
+		if _, ok := cnts[need]; ok && cnts[need] > 0 {
+			cnts[need]--
+			res++
+		} else {
+			cnts[val]++
+		}
+	}
+	return res
+}
+
+func removeStars(s string) string { //字符串移除*号
+	stack := make([]byte, 0)
+	for i := 0; i < len(s); i++ {
+		if s[i] == '*' {
+			if len(stack) > 0 {
+				stack = stack[:len(stack)-1]
+			}
+		} else {
+			stack = append(stack, s[i])
+		}
+	}
+	return string(stack)
+}
+
+func asteroidCollision(asteroids []int) []int { //小行星碰撞
+	stack := make([]int, 0)
+	for i := 0; i < len(asteroids); i++ {
+		if len(stack) > 0 {
+			num := asteroids[i]
+			flag := true //移动方向，true右，false左
+			if num < 0 {
+				flag = false
+				num = -num
+			}
+			mark := true
+			for mark {
+				if len(stack) == 0 {
+					stack = append(stack, asteroids[i])
+					break
+				}
+				top := stack[len(stack)-1]
+				if top > 0 && !flag { //栈顶向右，新元素向左
+					if num == top {
+						stack = stack[:len(stack)-1]
+						mark = false
+					} else if top < num {
+						stack = stack[:len(stack)-1]
+					} else {
+						mark = false
+					}
+				} else {
+					stack = append(stack, asteroids[i])
+					mark = false
+				}
+			}
+		} else {
+			stack = append(stack, asteroids[i])
+		}
+	}
+	return stack
+}
+
+func DecodeString(s string) string { //字符串解码
+	stack := make([]rune, 0)
+	runes := []rune(s)
+	for i := 0; i < len(s); i++ {
+		if runes[i] == ']' {
+			temp := ""
+			flag := true
+			for flag {
+				top := stack[len(stack)-1]
+				if top != '[' {
+					temp += string(top)
+					stack = stack[:len(stack)-1]
+				} else {
+					stack = stack[:len(stack)-1] //左边的'['出
+					flag = false
+					nums := []int{}
+					for len(stack) > 0 && stack[len(stack)-1] >= '0' && stack[len(stack)-1] <= '9' {
+						nums = append(nums, int(stack[len(stack)-1]-'0'))
+						stack = stack[:len(stack)-1]
+					}
+					num := 0
+					for j := 0; j < len(nums); j++ {
+						num += nums[j] * int(math.Pow(10, float64(j)))
+					}
+					str := ""
+					temp = ReverseString(temp)
+					for j := 0; j < int(num); j++ {
+						str += temp
+					}
+					for x := 0; x < len(str); x++ {
+						stack = append(stack, rune(str[x]))
+					}
+				}
+			}
+		} else {
+			stack = append(stack, runes[i])
+		}
+	}
+	return string(stack)
+}

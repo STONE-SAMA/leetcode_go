@@ -1,5 +1,7 @@
 package main
 
+import "GO/leetcode"
+
 func main() {
 
 	//demo.FunDemo1()
@@ -73,5 +75,9 @@ func main() {
 	//node4.Next = &node5
 	//node5.Next = nil
 	//leetcode.OddEvenList(&node1)
+
+	//leetcode.MaxOperations([]int{3, 1, 3, 4, 3}, 6)
+
+	leetcode.DecodeString("2[abc]3[cd]ef")
 
 }
