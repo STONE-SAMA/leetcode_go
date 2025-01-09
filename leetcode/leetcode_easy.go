@@ -804,3 +804,21 @@ func reverseList(head *ListNode) *ListNode { //反转链表
 	node.Next = pre
 	return node
 }
+
+func FindMaxAverage(nums []int, k int) float64 { //子数组最大平均数 I
+	MaxSum := 0
+	for i := 0; i < k; i++ {
+		MaxSum += nums[i]
+	}
+	if len(nums) == k {
+		return float64(MaxSum) / float64(k)
+	} else {
+		mark := MaxSum
+		for i := 1; i <= len(nums)-k; i++ {
+			temp := nums[i+k-1] + mark - nums[i-1]
+			mark = temp
+			MaxSum = max(temp, MaxSum)
+		}
+	}
+	return float64(MaxSum) / float64(k)
+}

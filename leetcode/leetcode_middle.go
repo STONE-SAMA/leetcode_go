@@ -603,3 +603,25 @@ func DecodeString(s string) string { //字符串解码
 	}
 	return string(stack)
 }
+
+func longestOnes(nums []int, k int) int { //最大连续1的个数 III
+	MaxNum := 0
+	mark := 0
+	temp := 0
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == 1 {
+			temp++
+		} else {
+			if mark < k {
+				mark++
+				temp++
+			} else {
+				for nums[i-temp] != 0 {
+					temp--
+				}
+			}
+		}
+		MaxNum = max(MaxNum, temp)
+	}
+	return MaxNum
+}

@@ -78,6 +78,7 @@ func main() {
 
 	//leetcode.MaxOperations([]int{3, 1, 3, 4, 3}, 6)
 
-	leetcode.DecodeString("2[abc]3[cd]ef")
+	//leetcode.DecodeString("2[abc]3[cd]ef")
 
+	leetcode.FindMaxAverage([]int{0, 1, 1, 3, 3}, 4)
 }
